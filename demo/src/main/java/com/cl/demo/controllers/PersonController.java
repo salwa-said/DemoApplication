@@ -2,6 +2,7 @@ package com.cl.demo.controllers;
 
 
 import com.cl.demo.entities.Person;
+import com.cl.demo.requestobjects.PersonCreateRequest;
 import com.cl.demo.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class PersonController {
     public PersonService personService;
 
     @PostMapping("add")
-     public Map<String, String> addPerson(@RequestBody Person person) {
+     public Map<String, String> addPerson(@RequestBody PersonCreateRequest person) {
         return personService.addPerson(person);
 
     }
@@ -29,6 +30,12 @@ public class PersonController {
 
     @GetMapping("getAll")
     public List<Person> getAllPerson(){
-        return personService.getAllPersin();
+        return personService.getAllPersons();
+    }
+
+
+    @GetMapping("update")
+    public Map<String, String> updatePerson(@RequestParam Person person){
+        return personService.updatePerson();
     }
 }
