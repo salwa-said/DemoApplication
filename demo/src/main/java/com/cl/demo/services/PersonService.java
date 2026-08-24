@@ -3,6 +3,7 @@ package com.cl.demo.services;
 
 import com.cl.demo.DemoApplication;
 import com.cl.demo.entities.Person;
+import com.cl.demo.requestobjects.PersonCreateRequest;
 import com.cl.demo.utils.HelperUtils;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +17,21 @@ public class PersonService {
 
 
 
-    public Map<String, String> addPerson(Person person) {
+    public Map<String, String> addPerson(PersonCreateRequest requestObj) {
         Map<String, String> response = new HashMap<>();
+        Person person =  new Person();
 
-        if (!DemoApplication.emails.add(person.getEmail())|| !DemoApplication.userNames.add(person.getUserName())){
-            response.put("response", USERNAME_OR_EMAIL_ALREADY_TAKEN);
+        if (verifyUserNameAndEmail(requestObj.getPersonUserName(), requestObj.getPersonEmail())){
+            response.put("error", USERNAME_OR_EMAIL_ALREADY_TAKEN);
             return response;
         }
 
         person.setId(UUID.randomUUID());
         person.setIsActive(Boolean.TRUE);
         person.setCreatedDate(new Date());
+        person.setUserName(requestObj.getPersonUserName());
+        person.setName(getFullName(requestObj));
+        person.setEmail(requestObj.getPersonEmail());
 
 
         Boolean result = DemoApplication.personList.add(person);
@@ -60,7 +65,22 @@ public class PersonService {
         return person;
     }
 
-    public List<Person> getAllPersin(){
+    public List<Person> getAllPersons(){
         return  DemoApplication.personList;
+    }
+
+
+    public Boolean verifyUserNameAndEmail(String userName, String email){
+        if(!DemoApplication.emails.add(email) || !DemoApplication.userNames.add(userName)) {
+        return false;
+        }
+        return true;
+    }
+
+
+    public String getFullName(PersonCreateRequest request){
+        return request.getPersonFirstName() + "  " +
+                request.getPersonMiddleName()+  "  "+
+                request.getPersonLastName();
     }
 }
