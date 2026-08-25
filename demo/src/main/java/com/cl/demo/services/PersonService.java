@@ -14,7 +14,7 @@ import java.util.*;
 @Service
 public class PersonService {
 
-    public  static final  String USERNAME_OR_EMAIL_ALREADY_TAKEN="USERNAME OR EMAIL ALREADY TAKEN";
+    public  static final  String  PERSON_USERNAME_OR_EMAIL_ALREADY_TAKEN="USERNAME OR EMAIL ALREADY TAKEN";
     public  static final  String PERSON_SAVED="PERSON SAVED";
 
 
@@ -23,8 +23,8 @@ public class PersonService {
         Map<String, String> response = new HashMap<>();
         Person person =  new Person();
 
-        if (verifyUserNameAndEmail(requestObj.getPersonUserName(), requestObj.getPersonEmail())){
-            response.put("error", USERNAME_OR_EMAIL_ALREADY_TAKEN);
+        if (!verifyUserNameAndEmail(requestObj.getPersonUserName(), requestObj.getPersonEmail())){
+            response.put("error",  PERSON_USERNAME_OR_EMAIL_ALREADY_TAKEN);
             return response;
         }
 
@@ -67,7 +67,7 @@ public class PersonService {
 
     public Person updatePerson(PersonUpdateRequest updateObj){
         Person person = getPersonById(updateObj.getUuid());
-        if(person.getId() == null || person.getId()== null || !person.getIsActive()){
+        if(person == null || person.getId() == null || !person.getIsActive()){
             return person;
         }
         DemoApplication.personList.remove(person);
@@ -98,20 +98,29 @@ public class PersonService {
         String userNameToUpdate = HelperUtils.compare(currentUserNameObj.getActiveUserName(), updateRequest.getUserNameToUpdate());
         UserName userName = new UserName();
         if(DemoApplication.userNames.add(userNameToUpdate)== true){
-            List<String> userNameHistory =currentUserNameObj.getPrevUserNames();
+            List<String> userNameHistory = currentUserNameObj.getPrevUserNames();
+            if (userNameHistory == null) {
+                userNameHistory = new ArrayList<>();
+            }
             userNameHistory.add(currentUserNameObj.getActiveUserName());
+
             currentUserNameObj.setPrevUserNames(userNameHistory);
             currentUserNameObj.setActiveUserName(updateRequest.getUserNameToUpdate());
         }
+
         return currentUserNameObj;
     }
 
     public Boolean deleteById(String uuid){
-        Person person= getPersonById(uuid);
-        if(person==null || person.getId()==null || person.getIsActive()!=true){
+        Person person = getPersonById(uuid);
+        if (person == null || person.getId() == null || person.getIsActive() != true) {
             return false;
+        } else {
+            DemoApplication.personList.remove(person);
+            person.setIsActive(false);
+            DemoApplication.personList.add(person);
+            return true;
         }
-        Boolean result =DemoApplication.personList.remove(person);
-        return result;
     }
 }
+
