@@ -4,6 +4,8 @@ package com.cl.demo.controllers;
 import com.cl.demo.entities.Person;
 import com.cl.demo.requestobjects.PersonCreateRequest;
 import com.cl.demo.requestobjects.PersonUpdateRequest;
+import com.cl.demo.responseobjects.PersonCreateResponse;
+import com.cl.demo.responseobjects.PersonUpdateResponse;
 import com.cl.demo.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,19 +27,19 @@ public class PersonController {
 
     }
     @GetMapping("getById")
-    public Person getPersoneById(@RequestParam String uuid){
-        return personService.getPersonById(uuid);
+    public PersonCreateResponse getPersoneById(@RequestParam String uuid){
+       return PersonCreateResponse.convert(personService.getPersonById(uuid));
     }
 
     @GetMapping("getAll")
-    public List<Person> getAllPerson(){
-        return personService.getAllPersons();
+    public List<PersonCreateResponse> getAllPerson(){
+        return PersonCreateResponse.convert(personService.getAllPersons());
     }
 
 
     @GetMapping("update")
-    public Person updatePerson(@RequestBody PersonUpdateRequest updateObj){
-       return  personService.updatePerson(updateObj);
+    public PersonUpdateResponse updatePerson(@RequestBody PersonUpdateRequest updateObj){
+       return PersonUpdateResponse.convert(personService.updatePerson(updateObj));
         }
 
     @RequestMapping( "deleteById")
