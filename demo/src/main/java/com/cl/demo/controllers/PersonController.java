@@ -3,6 +3,7 @@ package com.cl.demo.controllers;
 
 import com.cl.demo.entities.Person;
 import com.cl.demo.requestobjects.PersonCreateRequest;
+import com.cl.demo.requestobjects.PersonUpdateRequest;
 import com.cl.demo.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,12 @@ public class PersonController {
 
 
     @GetMapping("update")
-    public Map<String, String> updatePerson(@RequestParam Person person){
-        return personService.updatePerson();
+    public Person updatePerson(@RequestBody PersonUpdateRequest updateObj){
+       return  personService.updatePerson(updateObj);
+        }
+
+    @RequestMapping( "deleteById")
+    public Boolean deletePersonById(@RequestParam String id){
+        return personService.deleteById(id);
     }
 }
