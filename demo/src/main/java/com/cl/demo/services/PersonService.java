@@ -3,7 +3,9 @@ package com.cl.demo.services;
 
 import com.cl.demo.DemoApplication;
 import com.cl.demo.entities.Person;
+import com.cl.demo.entities.UserName;
 import com.cl.demo.requestobjects.PersonCreateRequest;
+import com.cl.demo.requestobjects.PersonUpdateRequest;
 import com.cl.demo.utils.HelperUtils;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,9 @@ public class PersonService {
         person.setId(UUID.randomUUID());
         person.setIsActive(Boolean.TRUE);
         person.setCreatedDate(new Date());
-        person.setUserName(requestObj.getPersonUserName());
+        UserName userName= new UserName();
+        userName.setActiveUserName(requestObj.getPersonUserName());
+        person.setUserName(userName);
         person.setName(getFullName(requestObj));
         person.setEmail(requestObj.getPersonEmail());
 
@@ -50,25 +54,31 @@ public class PersonService {
         return new Person();
     }
 
-    public Person updatePerson(String uuid, String nameToUpdate, String userNameToUpdate, String emailToUpdate){
-       Person person = getPersonById(uuid);
-       if(person.getId() == null){
-           return person;
-       }
-       DemoApplication.personList.remove(person);
 
-       person.setName(HelperUtils.compare(person.getName(), nameToUpdate));
-        person.setUserName(HelperUtils.compare(person.getUserName(), userNameToUpdate));
-        person.setEmail(HelperUtils.compare(person.getEmail(), emailToUpdate));
+    public List<Person> getAllPersons(){
+        List<Person> resultList= new ArrayList<>();
+        for ( Person p: DemoApplication.personList){
+            if(p.getIsActive()){
+                resultList.add(p);
+            }
+        }
+        return resultList;
+    }
+
+
+    public Person updatePerson(PersonUpdateRequest updateObj){
+        Person person = getPersonById(updateObj.getUuid());
+        if(person.getId() == null || person.getId()== null || !person.getIsActive()){
+            return person;
+        }
+        DemoApplication.personList.remove(person);
+
+        person.setUserName(getUserNameByCompare(person.getUserName(), updateObj));
+        person.setEmail(HelperUtils.compare(person.getEmail(), updateObj.getEmailToUpdate()));
 
         DemoApplication.personList.add(person);
         return person;
     }
-
-    public List<Person> getAllPersons(){
-        return  DemoApplication.personList;
-    }
-
 
     public Boolean verifyUserNameAndEmail(String userName, String email){
         if(!DemoApplication.emails.add(email) || !DemoApplication.userNames.add(userName)) {
@@ -82,5 +92,27 @@ public class PersonService {
         return request.getPersonFirstName() + "  " +
                 request.getPersonMiddleName()+  "  "+
                 request.getPersonLastName();
+    }
+
+
+    private UserName getUserNameByCompare(UserName currentUserNameObj, PersonUpdateRequest updateRequest){
+        String userNameToUpdate = HelperUtils.compare(currentUserNameObj.getActiveUserName(), updateRequest.getUserNameToUpdate());
+        UserName userName = new UserName();
+        if(DemoApplication.userNames.add(userNameToUpdate)== true){
+            List<String> userNameHistory =currentUserNameObj.getPrevUserNames();
+            userNameHistory.add(currentUserNameObj.getActiveUserName());
+            currentUserNameObj.setPrevUserNames(userNameHistory);
+            currentUserNameObj.setActiveUserName(updateRequest.getUserNameToUpdate());
+        }
+        return currentUserNameObj;
+    }
+
+    public Boolean deleteById(String uuid){
+        Person person= getPersonById(uuid);
+        if(person==null || person.getId()==null || person.getIsActive()!=true){
+            return false;
+        }
+        Boolean result =DemoApplication.personList.remove(person);
+        return result;
     }
 }
