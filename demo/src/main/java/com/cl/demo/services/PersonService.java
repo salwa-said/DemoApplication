@@ -47,7 +47,7 @@ public class PersonService {
 
     public Person getPersonById(String uuid){
         for (Person p: DemoApplication.personList){
-            if(p.getId().toString().equals(uuid)){
+            if(p.getId().toString().equals(uuid)&& p.getIsActive()!=false){
                 return p;
             }
         }
@@ -64,7 +64,6 @@ public class PersonService {
         }
         return resultList;
     }
-
 
     public Person updatePerson(PersonUpdateRequest updateObj){
         Person person = getPersonById(updateObj.getUuid());
