@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 public class Person extends BaseClass {
     private String name;
-    private String userName;
+    private UserName userName;
     private String email;
     private PhoneNumber phoneNumber;
     private List<Task> tasks;
