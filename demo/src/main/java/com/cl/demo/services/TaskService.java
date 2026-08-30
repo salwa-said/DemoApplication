@@ -52,7 +52,7 @@ public class TaskService {
                                 return t;
                         }
                 }
-                return new Task();
+                return null;
         }
 
         public List<Task> getAllTasks() {
