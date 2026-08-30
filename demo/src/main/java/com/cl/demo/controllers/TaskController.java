@@ -37,5 +37,9 @@ public TaskService taskService;
         return TaskUpdateResponse.convert(taskService.updateTask(updateObj));
     }
 
+    @DeleteMapping("deleteById")
+    public Boolean deleteTaskById(@RequestParam String id) {
+        return taskService.deleteById(id);
+    }
 
 }
