@@ -20,6 +20,13 @@ public class TaskService {
                 Map<String, String> response = new HashMap<>();
                 Task task = new Task();
 
+                if (requestObj.getTitle() == null || requestObj.getTitle().isEmpty()
+                        || requestObj.getDescription() == null || requestObj.getDescription().isEmpty()
+                        || requestObj.getDueDate() == null) {
+                        response.put("error", "Important fields cannot be empty");
+                        return response;
+                }
+
                 task.setId(UUID.randomUUID());
                 task.setIsActive(Boolean.TRUE);
                 task.setCreatedDate(new Date());
