@@ -22,4 +22,10 @@ public class PhoneNumberController {
         return PhoneNumberCreateResponse.convert(phoneNumberService.addPhoneNumber(requestObj));
     }
 
+    @GetMapping("getById")
+    public PhoneNumberCreateResponse getPhoneNumberById(@RequestParam String uuid) {
+        return PhoneNumberCreateResponse.convert(phoneNumberService.getPhoneNumberById(uuid));
+    }
+
+
 }
