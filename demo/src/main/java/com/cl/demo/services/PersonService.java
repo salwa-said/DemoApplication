@@ -3,10 +3,12 @@ package com.cl.demo.services;
 
 import com.cl.demo.DemoApplication;
 import com.cl.demo.entities.Person;
+import com.cl.demo.entities.PhoneNumber;
 import com.cl.demo.entities.UserName;
 import com.cl.demo.requestobjects.PersonCreateRequest;
 import com.cl.demo.requestobjects.PersonUpdateRequest;
 import com.cl.demo.utils.HelperUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,7 +19,8 @@ public class PersonService {
     public  static final  String  PERSON_USERNAME_OR_EMAIL_ALREADY_TAKEN="USERNAME OR EMAIL ALREADY TAKEN";
     public  static final  String PERSON_SAVED="PERSON SAVED";
 
-
+    @Autowired
+    public PhoneNumberService phoneNumberService;
 
     public Map<String, String> addPerson(PersonCreateRequest requestObj) {
         Map<String, String> response = new HashMap<>();
@@ -36,6 +39,15 @@ public class PersonService {
         person.setUserName(userName);
         person.setName(getFullName(requestObj));
         person.setEmail(requestObj.getPersonEmail());
+
+        PhoneNumber phoneNumber = new PhoneNumber();
+        phoneNumber.setId(UUID.randomUUID());
+        phoneNumber.setIsActive(Boolean.TRUE);
+        phoneNumber.setCreatedDate(new Date());
+        phoneNumber.setCountryCode(requestObj.getPersonCountryCode());
+        phoneNumber.setPhoneNumber(requestObj.getPersonPhoneNumber());
+
+        person.setPhoneNumber(phoneNumber);
 
 
         Boolean result = DemoApplication.personList.add(person);
