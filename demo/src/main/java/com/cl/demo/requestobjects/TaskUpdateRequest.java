@@ -12,7 +12,7 @@ public class TaskUpdateRequest {
     String uuid;
     String titleToUpdate;
     String descriptionToUpdate;
-   String taskStatusToUpdate;
+    String taskStatusToUpdate;
     Date dueDateToUpdate;
     Boolean isAssignedToUpdate;
 
