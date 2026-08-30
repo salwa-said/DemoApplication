@@ -28,5 +28,13 @@ public class PhoneNumberService {
         return phoneNumber;
     }
 
+    public PhoneNumber getPhoneNumberById(String uuid) {
+        for (PhoneNumber pn : DemoApplication.phoneNumberList) {
+            if (pn.getId().toString().equals(uuid) && pn.getIsActive()) {
+                return pn;
+            }
+        }
+        return new PhoneNumber();
+    }
 
 }
