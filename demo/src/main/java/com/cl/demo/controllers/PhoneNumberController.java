@@ -16,4 +16,10 @@ import java.util.List;
 public class PhoneNumberController {
     @Autowired
     public PhoneNumberService phoneNumberService;
+
+    @PostMapping("add")
+    public PhoneNumberCreateResponse addPhoneNumber(@RequestBody PhoneNumberCreateRequest requestObj) {
+        return PhoneNumberCreateResponse.convert(phoneNumberService.addPhoneNumber(requestObj));
+    }
+
 }
