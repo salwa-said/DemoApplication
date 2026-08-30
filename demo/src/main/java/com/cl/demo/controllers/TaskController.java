@@ -23,4 +23,11 @@ public TaskService taskService;
         return taskService.addTask(task);
     }
 
+    @GetMapping("getById")
+    public TaskCreateResponse getTaskById(@RequestParam String uuid) {
+        return TaskCreateResponse.convert(taskService.getTaskById(uuid));
+    }
+
+
+
 }
