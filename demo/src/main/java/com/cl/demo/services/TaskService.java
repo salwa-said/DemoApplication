@@ -58,7 +58,7 @@ public class TaskService {
         public List<Task> getAllTasks() {
                 List<Task> resultList = new ArrayList<>();
                 for (Task t : DemoApplication.taskList) {
-                        if (t.getIsActive()) {
+                        if (t.getIsActive()) { //boolean check
                                 resultList.add(t);
                         }
                 }
