@@ -32,5 +32,10 @@ public TaskService taskService;
         return TaskCreateResponse.convert(taskService.getAllTasks());
     }
 
+    @PutMapping("update")
+    public TaskUpdateResponse updateTask(@RequestBody TaskUpdateRequest updateObj) {
+        return TaskUpdateResponse.convert(taskService.updateTask(updateObj));
+    }
+
 
 }
