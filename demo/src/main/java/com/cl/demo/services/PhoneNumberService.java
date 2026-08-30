@@ -46,4 +46,22 @@ public class PhoneNumberService {
         return resultList;
     }
 
+    public PhoneNumber updatePhoneNumber(PhoneNumberUpdateRequest updateObj) {
+        PhoneNumber phoneNumber = getPhoneNumberById(updateObj.getUuid());
+        if (phoneNumber == null || phoneNumber.getId() == null || !phoneNumber.getIsActive()) {
+            return phoneNumber;
+        }
+        DemoApplication.phoneNumberList.remove(phoneNumber);
+
+        phoneNumber.setCountryCode(HelperUtils.compare(phoneNumber.getCountryCode(), updateObj.getCountryCodeToUpdate()));
+        if (updateObj.getPhoneNumberToUpdate() != null) {
+            phoneNumber.setPhoneNumber(updateObj.getPhoneNumberToUpdate());
+        }
+
+        phoneNumber.setUpdatedDate(new Date());
+        DemoApplication.phoneNumberList.add(phoneNumber);
+        return phoneNumber;
+    }
+
+
 }
