@@ -14,9 +14,11 @@ import java.util.Set;
 public class DemoApplication {
 
 	public static List<Person> personList= new ArrayList<>();
-	static List<Task> taskList= new ArrayList<>();
+	public static List<Task> taskList= new ArrayList<>();
 	public static Set<String> userNames = new HashSet<>();
 	public static Set<String> emails = new HashSet<>();
+
+
 
 
 

@@ -1,7 +1,10 @@
 package com.cl.demo.requestobjects;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Setter
 @Getter
@@ -10,7 +13,7 @@ public class TaskUpdateRequest {
     String titleToUpdate;
     String descriptionToUpdate;
    String taskStatusToUpdate;
-    String dueDateToUpdate;
+    Date dueDateToUpdate;
     Boolean isAssignedToUpdate;
 
 }
