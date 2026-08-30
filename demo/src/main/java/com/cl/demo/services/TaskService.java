@@ -91,7 +91,7 @@ public class TaskService {
                 task.setUpdatedDate(new Date());
                 DemoApplication.taskList.add(task);
                 return task;
-                
+
         }
 
         public Boolean deleteById(String uuid) {
