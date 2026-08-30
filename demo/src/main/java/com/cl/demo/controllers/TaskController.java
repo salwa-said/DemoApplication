@@ -27,7 +27,10 @@ public TaskService taskService;
     public TaskCreateResponse getTaskById(@RequestParam String uuid) {
         return TaskCreateResponse.convert(taskService.getTaskById(uuid));
     }
-
+    @GetMapping("getAll")
+    public List<TaskCreateResponse> getAllTasks() {
+        return TaskCreateResponse.convert(taskService.getAllTasks());
+    }
 
 
 }
