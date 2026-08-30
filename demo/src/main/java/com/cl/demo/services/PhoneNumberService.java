@@ -36,5 +36,14 @@ public class PhoneNumberService {
         }
         return new PhoneNumber();
     }
+    public List<PhoneNumber> getAllPhoneNumbers() {
+        List<PhoneNumber> resultList = new ArrayList<>();
+        for (PhoneNumber pn : DemoApplication.phoneNumberList) {
+            if (pn.getIsActive()) {
+                resultList.add(pn);
+            }
+        }
+        return resultList;
+    }
 
 }
