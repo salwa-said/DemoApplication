@@ -16,14 +16,18 @@ public class PersonUpdateResponse {
     String email;
 
 
-    public static PersonUpdateResponse convert(Person person){
+    public static PersonUpdateResponse convert(Person person) {
+        if (person == null || person.getId() == null) return null;
+
         PersonUpdateResponse response = new PersonUpdateResponse();
         response.setPersonId(person.getId().toString());
         response.setEmail(person.getEmail());
-        response.setUserName(person.getUserName().getActiveUserName());
+        response.setUserName(
+                person.getUserName() != null ? person.getUserName().getActiveUserName() : null
+        );
         return response;
-
     }
+
 
     public static List<PersonUpdateResponse> convert(List<Person> personList){
         List<PersonUpdateResponse> responseList = new ArrayList<>();
