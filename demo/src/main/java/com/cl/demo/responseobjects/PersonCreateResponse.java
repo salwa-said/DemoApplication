@@ -23,7 +23,9 @@ public class PersonCreateResponse {
         response.setFullName(person.getName());
         response.setUserName(person.getUserName().getActiveUserName());
         response.setEmail(person.getEmail());
-        response.setPhoneNumber(person.getPhoneNumber().toString());
+        if (person.getPhoneNumber() != null) {
+            response.setPhoneNumber(person.getPhoneNumber().getCountryCode() + " " + person.getPhoneNumber().getPhoneNumber());
+        }
         return response;
     }
 
