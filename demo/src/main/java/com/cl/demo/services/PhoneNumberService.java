@@ -63,5 +63,18 @@ public class PhoneNumberService {
         return phoneNumber;
     }
 
-
+    public Boolean deleteById(String uuid) {
+        PhoneNumber phoneNumber = getPhoneNumberById(uuid);
+        if (phoneNumber == null || phoneNumber.getId() == null || !phoneNumber.getIsActive()) {
+            return false;
+        } else {
+            DemoApplication.phoneNumberList.remove(phoneNumber);
+            phoneNumber.setIsActive(false);
+            phoneNumber.setUpdatedDate(new Date());
+            DemoApplication.phoneNumberList.add(phoneNumber);
+            return true;
+        }
+    }
 }
+
+
