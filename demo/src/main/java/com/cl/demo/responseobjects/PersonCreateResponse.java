@@ -17,17 +17,26 @@ public class PersonCreateResponse {
     String email;
     String phoneNumber;
 
-    public static  PersonCreateResponse convert(Person person){
-        PersonCreateResponse response= new PersonCreateResponse();
+    public static PersonCreateResponse convert(Person person) {
+        if (person == null || person.getId() == null) return null;
+
+        PersonCreateResponse response = new PersonCreateResponse();
         response.setPersonId(person.getId().toString());
         response.setFullName(person.getName());
-        response.setUserName(person.getUserName().getActiveUserName());
+        response.setUserName(
+                person.getUserName() != null ? person.getUserName().getActiveUserName() : null
+        );
         response.setEmail(person.getEmail());
+
         if (person.getPhoneNumber() != null) {
-            response.setPhoneNumber(person.getPhoneNumber().getCountryCode() + " " + person.getPhoneNumber().getPhoneNumber());
+            response.setPhoneNumber(
+                    person.getPhoneNumber().getCountryCode() + " " + person.getPhoneNumber().getPhoneNumber()
+            );
         }
+
         return response;
     }
+
 
     public static List<PersonCreateResponse> convert(List<Person> personList){
         List<PersonCreateResponse> responseList = new ArrayList<>();
