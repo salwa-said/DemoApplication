@@ -27,5 +27,11 @@ public class PhoneNumberController {
         return PhoneNumberCreateResponse.convert(phoneNumberService.getPhoneNumberById(uuid));
     }
 
+    @GetMapping("getAll")
+    public List<PhoneNumberCreateResponse> getAllPhoneNumbers() {
+        return PhoneNumberCreateResponse.convert(phoneNumberService.getAllPhoneNumbers());
+    }
+
+
 
 }
